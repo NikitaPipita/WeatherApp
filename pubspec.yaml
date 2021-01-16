@@ -31,6 +31,8 @@ dependencies:
 
   bloc_pattern: ^2.5.1
   rxdart: ^0.25.0
+  http: ^0.12.2
+  flutter_icons: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -42,7 +44,8 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   assets:
-    - assets/launch_image.png
+    - assets/images/launch_image.png
+    - assets/keys/weather_api_keys
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
