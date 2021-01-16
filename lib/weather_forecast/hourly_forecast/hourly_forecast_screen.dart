@@ -112,7 +112,7 @@ class HourlyForecastScreen extends StatelessWidget {
 
 class HourlyWeatherBloc extends BlocBase {
   Future<List<HourWeather>> _fetchHourlyWeather() =>
-      getFourDaysHourlyForecast(50.4547, 30.5238, 'ru');
+      getTwoDaysHourlyForecast(50.4547, 30.5238, 'ru');
 
   final _weatherFetcher = BehaviorSubject<List<HourWeather>>();
 
