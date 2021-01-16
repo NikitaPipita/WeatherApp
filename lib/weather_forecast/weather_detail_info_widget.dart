@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class WeatherDetailInfoWidget extends StatelessWidget {
@@ -21,7 +22,9 @@ class WeatherDetailInfoWidget extends StatelessWidget {
             fontSize: 16.0,
           ),
         ),
-        SizedBox(height: 8.0,),
+        SizedBox(
+          height: 8.0,
+        ),
         Card(
           elevation: 0,
           color: Colors.transparent,
@@ -46,11 +49,10 @@ class WeatherDetailInfoWidget extends StatelessWidget {
   }
 }
 
-
 class DetailInfoGridTile extends StatelessWidget {
   final IconData icon;
   final String title;
-  final String info;
+  final dynamic info;
   final bool underlined;
 
   DetailInfoGridTile({
@@ -62,16 +64,31 @@ class DetailInfoGridTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final infoTextStyle = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 16.0,
+    );
+    final infoWidget = info is Stream<String>
+        ? StreamBuilder(
+            stream: info,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data, style: infoTextStyle);
+              }
+              return Text('');
+            },
+          )
+        : Text(info, style: infoTextStyle,);
+
     return GridTile(
       child: Container(
         decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-                width: 1,
-                color: underlined ? Colors.grey : Colors.transparent,
-            ),
-          )
-        ),
+            border: Border(
+          bottom: BorderSide(
+            width: 1,
+            color: underlined ? Colors.grey : Colors.transparent,
+          ),
+        )),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -81,19 +98,15 @@ class DetailInfoGridTile extends StatelessWidget {
               size: 24.0,
               color: Colors.blue,
             ),
-            SizedBox(width: 4.0,),
+            SizedBox(
+              width: 4.0,
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(title),
-                Text(
-                  info,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
-                  ),
-                )
+                infoWidget,
               ],
             ),
           ],

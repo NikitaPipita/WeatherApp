@@ -2,6 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 
 import 'splash_screen.dart';
+import 'weather_forecast/daily_forecast/daily_forecast_screen.dart';
 import 'weather_forecast/hourly_forecast/hourly_forecast_screen.dart';
 import 'weather_forecast/main_page.dart';
 
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         Bloc((i) => WeatherDisplayModeTitleBloc()),
         Bloc((i) => WeatherDisplayModeScreenBloc()),
         Bloc((i) => HourlyWeatherBloc()),
+        Bloc((i) => DailyWeatherBloc()),
       ],
     );
   }

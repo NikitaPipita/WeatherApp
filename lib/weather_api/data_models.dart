@@ -69,6 +69,7 @@ class DayWeather {
   final int humidity;
   final int windSpeed;
   final int precipitationProbability;
+  final int cloudiness;
   final int ultravioletIndex;
 
   final List<GeneralWeatherInfo> generalInfo;
@@ -86,6 +87,7 @@ class DayWeather {
     this.humidity,
     this.windSpeed,
     this.precipitationProbability,
+    this.cloudiness,
     this.ultravioletIndex,
 
     this.generalInfo,
@@ -109,6 +111,7 @@ class DayWeather {
       humidity: json['humidity'].toInt(),
       windSpeed: json['wind_speed'].toInt(),
       precipitationProbability: json['pop'].toInt(),
+      cloudiness: json['clouds'].toInt(),
       ultravioletIndex: json['uvi'].toInt(),
 
       generalInfo: generalWeatherInfo.map((e) =>
