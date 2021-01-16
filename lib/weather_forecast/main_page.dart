@@ -4,7 +4,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'daily_forecast_screen.dart';
+import 'daily_forecast/daily_forecast_screen.dart';
 import 'hourly_forecast/hourly_forecast_screen.dart';
 
 class MainPage extends StatelessWidget {

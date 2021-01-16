@@ -55,3 +55,67 @@ class GeneralWeatherInfo {
         weatherIcon: json['icon'],
       );
 }
+
+class DayWeather {
+  final int unixDateTime;
+  final int sunriseUnixDateTime;
+  final int sunsetUnixDateTime;
+
+  final int dayTemperature;
+  final int nightTemperature;
+  final int dayTemperatureFeels;
+  final int nightTemperatureFeels;
+
+  final int humidity;
+  final int windSpeed;
+  final int precipitationProbability;
+  final int cloudiness;
+  final int ultravioletIndex;
+
+  final List<GeneralWeatherInfo> generalInfo;
+
+  DayWeather({
+    this.unixDateTime,
+    this.sunriseUnixDateTime,
+    this.sunsetUnixDateTime,
+
+    this.dayTemperature,
+    this.nightTemperature,
+    this.dayTemperatureFeels,
+    this.nightTemperatureFeels,
+
+    this.humidity,
+    this.windSpeed,
+    this.precipitationProbability,
+    this.cloudiness,
+    this.ultravioletIndex,
+
+    this.generalInfo,
+  });
+
+  factory DayWeather.fromJson(Map<String, dynamic> json) {
+    var temperatureInfo = json['temp'];
+    var temperatureFeelsInfo = json['feels_like'];
+    var generalWeatherInfo = json['weather'] as List<dynamic>;
+
+    return DayWeather(
+      unixDateTime: json['dt'],
+      sunriseUnixDateTime: json['sunrise'],
+      sunsetUnixDateTime: json['sunset'],
+
+      dayTemperature: temperatureInfo['day'].toInt(),
+      nightTemperature: temperatureInfo['night'].toInt(),
+      dayTemperatureFeels: temperatureFeelsInfo['day'].toInt(),
+      nightTemperatureFeels: temperatureFeelsInfo['night'].toInt(),
+
+      humidity: json['humidity'].toInt(),
+      windSpeed: json['wind_speed'].toInt(),
+      precipitationProbability: json['pop'].toInt(),
+      cloudiness: json['clouds'].toInt(),
+      ultravioletIndex: json['uvi'].toInt(),
+
+      generalInfo: generalWeatherInfo.map((e) =>
+          GeneralWeatherInfo.fromJson(e)).toList(),
+    );
+  }
+}
