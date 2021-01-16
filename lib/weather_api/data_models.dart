@@ -2,9 +2,8 @@ class HourWeather {
   final int unixDateTime;
   final int temperature;
   final int temperatureFeels;
-  final int atmospherePressure;
   final int humidity;
-  final int cloudiness;
+  final int ultravioletIndex;
   final int windSpeed;
   final int precipitationProbability;
 
@@ -14,9 +13,8 @@ class HourWeather {
     this.unixDateTime,
     this.temperature,
     this.temperatureFeels,
-    this.atmospherePressure,
     this.humidity,
-    this.cloudiness,
+    this.ultravioletIndex,
     this.windSpeed,
     this.precipitationProbability,
     this.generalInfo,
@@ -29,9 +27,8 @@ class HourWeather {
       unixDateTime: json['dt'],
       temperature: json['temp'].toInt(),
       temperatureFeels: json['feels_like'].toInt(),
-      atmospherePressure: json['pressure'].toInt(),
       humidity: json['humidity'].toInt(),
-      cloudiness: json['clouds'].toInt(),
+      ultravioletIndex: json['uvi'].toInt(),
       windSpeed: json['wind_speed'].toInt(),
       precipitationProbability: json['pop'].toInt(),
       generalInfo: generalWeatherInfo.map((e) =>
@@ -43,15 +40,18 @@ class HourWeather {
 class GeneralWeatherInfo {
   final String weatherCondition;
   final String description;
+  final String weatherIcon;
 
   GeneralWeatherInfo({
     this.weatherCondition,
     this.description,
+    this.weatherIcon,
   });
 
   factory GeneralWeatherInfo.fromJson(Map<String, dynamic> json) =>
       GeneralWeatherInfo(
         weatherCondition: json['main'],
         description: json['description'],
+        weatherIcon: json['icon'],
       );
 }

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'daily_forecast_screen.dart';
-import 'hourly_forecast_screen.dart';
+import 'hourly_forecast/hourly_forecast_screen.dart';
 
 class MainPage extends StatelessWidget {
   final _screenBloc = BlocProvider.getBloc<WeatherDisplayModeScreenBloc>();
