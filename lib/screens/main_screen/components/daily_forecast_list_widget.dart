@@ -71,7 +71,7 @@ class DailyForecastScreen extends StatelessWidget {
           DetailInfoGridTile(
             icon: Feather.cloud,
             title: 'Cloudiness',
-            info: dayForecast.cloudiness.toString() + ' %',
+            info: dayForecast.cloudiness.toString() + '%',
             underlined: true,
           ),
           DetailInfoGridTile(
