@@ -5,9 +5,8 @@ import 'package:http/http.dart' as http;
 
 import '../../constants/assets_paths.dart' as assets;
 import '../../constants/weather_api_paths.dart' as weatherApi;
-import '../../models/open_weather_models/data_models.dart';
 
-Future<List<HourWeather>> getTwoDaysHourlyForecast(
+Future<String> getTwoDaysHourlyForecast(
     double latitude, double longitude, String language) async {
   final exclude = 'current,minutely,daily,alerts';
   final measurementUnits = 'metric';
@@ -27,16 +26,14 @@ Future<List<HourWeather>> getTwoDaysHourlyForecast(
   );
 
   if (response.statusCode == 200) {
-    var data = jsonDecode(response.body);
-    var hourlyForecastData = data['hourly'] as List<dynamic>;
-    return hourlyForecastData.map((e) => HourWeather.fromJson(e)).toList();
+    return response.body;
   } else {
     throw Exception(
         'Failed to load hourly forecast. Check your Internet connection.');
   }
 }
 
-Future<List<DayWeather>> getSevenDaysDailyForecast(
+Future<String> getSevenDaysDailyForecast(
     double latitude, double longitude, String language) async {
   final exclude = 'current,minutely,hourly,alerts';
   final measurementUnits = 'metric';
@@ -56,9 +53,7 @@ Future<List<DayWeather>> getSevenDaysDailyForecast(
   );
 
   if (response.statusCode == 200) {
-    var data = jsonDecode(response.body);
-    var dailyForecastData = data['daily'] as List<dynamic>;
-    return dailyForecastData.map((e) => DayWeather.fromJson(e)).toList();
+    return response.body;
   } else {
     throw Exception(
         'Failed to load daily forecast. Check your Internet connection.');
