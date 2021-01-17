@@ -6,8 +6,10 @@ import 'package:connectivity/connectivity.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'city_name_bloc.dart';
 import '../../constants/shared_preferences_keys.dart' as sharedPreferencesKeys;
 import '../../models/open_weather_models/data_models.dart';
+import '../../services/geolocation/determine_position.dart';
 import '../../services/weather_api/open_weather_requests.dart';
 
 class HourlyWeatherBloc extends BlocBase {
@@ -34,7 +36,15 @@ class HourlyWeatherBloc extends BlocBase {
           preferences.getString(sharedPreferencesKeys.lastHourlyForecast) ?? '';
       if (jsonData.isEmpty) return List<HourWeather>();
     } else {
-      jsonData = await getTwoDaysHourlyForecast(50.4547, 30.5238, 'ru');
+
+      final _cityNameBloc = BlocProvider.getBloc<CityNameBloc>();
+      var cityPosition = await determineCurrentPosition();
+      var cityName = await determineCityByCoordinates(
+          cityPosition.latitude, cityPosition.longitude);
+      _cityNameBloc.setCity(cityName);
+
+      jsonData = await getTwoDaysHourlyForecast(
+          cityPosition.latitude, cityPosition.longitude, 'ru');
       await preferences.setString(
           sharedPreferencesKeys.lastHourlyForecast, jsonData);
     }
