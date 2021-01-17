@@ -3,18 +3,20 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
-import 'data_models.dart';
+import '../../constants/assets_paths.dart' as assets;
+import '../../constants/weather_api_paths.dart' as weatherApi;
+import '../../models/open_weather_models/data_models.dart';
 
 Future<List<HourWeather>> getTwoDaysHourlyForecast(
     double latitude, double longitude, String language) async {
   final exclude = 'current,minutely,daily,alerts';
   final measurementUnits = 'metric';
   final weatherApiKeysJson =
-      await rootBundle.loadString("assets/keys/weather_api_keys");
+      await rootBundle.loadString(assets.weatherApiKeysPath);
   final weatherApiKeys = jsonDecode(weatherApiKeysJson);
 
   final response = await http.get(
-    'https://api.openweathermap.org/data/2.5/onecall'
+    '${weatherApi.openWeatherOneCallPath}'
     '?'
     'lat=$latitude&'
     'lon=$longitude&'
@@ -39,11 +41,11 @@ Future<List<DayWeather>> getSevenDaysDailyForecast(
   final exclude = 'current,minutely,hourly,alerts';
   final measurementUnits = 'metric';
   final weatherApiKeysJson =
-      await rootBundle.loadString("assets/keys/weather_api_keys");
+      await rootBundle.loadString(assets.weatherApiKeysPath);
   final weatherApiKeys = jsonDecode(weatherApiKeysJson);
 
   final response = await http.get(
-    'https://api.openweathermap.org/data/2.5/onecall'
+    '${weatherApi.openWeatherOneCallPath}'
     '?'
     'lat=$latitude&'
     'lon=$longitude&'

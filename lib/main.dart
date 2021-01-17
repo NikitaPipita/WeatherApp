@@ -1,10 +1,11 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 
-import 'splash_screen.dart';
-import 'weather_forecast/daily_forecast/daily_forecast_screen.dart';
-import 'weather_forecast/hourly_forecast/hourly_forecast_screen.dart';
-import 'weather_forecast/main_page.dart';
+import 'blocs/main_screen_blocs/app_bar_title_bloc.dart';
+import 'blocs/main_screen_blocs/daily_weather_bloc.dart';
+import 'blocs/main_screen_blocs/hourly_weather_bloc.dart';
+import 'blocs/main_screen_blocs/weather_display_mode_bloc.dart';
+import 'screens/splash_screen/splash_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,8 +24,8 @@ class MyApp extends StatelessWidget {
       ),
 
       blocs: [
-        Bloc((i) => WeatherDisplayModeTitleBloc()),
-        Bloc((i) => WeatherDisplayModeScreenBloc()),
+        Bloc((i) => AppBarTitleBloc()),
+        Bloc((i) => WeatherDisplayModeBloc()),
         Bloc((i) => HourlyWeatherBloc()),
         Bloc((i) => DailyWeatherBloc()),
       ],

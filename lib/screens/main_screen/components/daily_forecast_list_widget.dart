@@ -1,18 +1,15 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:rxdart/rxdart.dart';
 
-import '../weather_detail_info_widget.dart';
-import '../weather_main_info_widget.dart';
-import '../../weather_api/data_models.dart';
-import '../../weather_api/open_weather_requests.dart';
-
-extension StringExtension on String {
-  String capitalizeFirstSymbol() {
-    return "${this[0].toUpperCase()}${this.substring(1)}";
-  }
-}
+import '../../../blocs/main_screen_blocs/daily_weather_bloc.dart';
+import '../../../components/detail_info_grid_tile_widget.dart';
+import '../../../components/weather_detail_info_widget.dart';
+import '../../../components/weather_main_info_widget.dart';
+import '../../../constants/weather_api_paths.dart' as weatherApi;
+import '../../../models/open_weather_models/data_models.dart';
+import '../../../utils/extensions/int_extensions.dart';
+import '../../../utils/extensions/string_extensions.dart';
 
 class DailyForecastScreen extends StatelessWidget {
   final _dailyWeatherBloc = BlocProvider.getBloc<DailyWeatherBloc>();
@@ -38,14 +35,14 @@ class DailyForecastScreen extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         DayWeather dayForecast = forecast[index];
 
-        final forecastTimeBloc =
-            WeekDayAndDayNumberTimeFormatBloc(dayForecast.unixDateTime);
+        final forecastDay = dayForecast.unixDateTime
+            .weekDayAndDayNumberTimeFormatBloc();
 
         final dayTemperature = dayForecast.dayTemperature.toString() + '°';
         final nightTemperature = dayForecast.nightTemperature.toString() + '°';
         final dayAndNightTemperature = dayTemperature +
             ' / ' + nightTemperature;
-        final iconUrl = 'https://openweathermap.org/img/wn/' +
+        final iconUrl = weatherApi.openWeatherImagePath +
             dayForecast.generalInfo.first.weatherIcon + '@4x.png';
         final hourPrecipitationProbability =
             dayForecast.precipitationProbability.toString() + '%';
@@ -53,10 +50,10 @@ class DailyForecastScreen extends StatelessWidget {
         final weatherDescription = dayForecast.generalInfo.first
             .description.capitalizeFirstSymbol();
 
-        final sunriseTimeBloc =
-            HourMinuteTimeFormatBloc(dayForecast.sunriseUnixDateTime);
-        final sunsetTimeBloc =
-            HourMinuteTimeFormatBloc(dayForecast.sunsetUnixDateTime);
+        final sunriseTime = dayForecast.sunriseUnixDateTime
+            .hourMinuteTimeFormat();
+        final sunsetTime = dayForecast.sunsetUnixDateTime
+            .hourMinuteTimeFormat();
 
         final hourWeatherDetails = [
           DetailInfoGridTile(
@@ -98,32 +95,19 @@ class DailyForecastScreen extends StatelessWidget {
           DetailInfoGridTile(
             icon: Feather.sunrise,
             title: 'Sunrise',
-            info: sunriseTimeBloc.time,
+            info: sunriseTime,
             underlined: false,
           ),
           DetailInfoGridTile(
             icon: Feather.sunset,
             title: 'Sunset',
-            info: sunsetTimeBloc.time,
+            info: sunsetTime,
             underlined: false,
           ),
         ];
 
         return ExpansionTile(
-          leading: StreamBuilder(
-            stream: forecastTimeBloc.time,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(snapshot.data),
-                  ],
-                );
-              }
-              return Text('');
-            },
-          ),
+          leading: Text(forecastDay),
           title: WeatherMainInfoWidget(
             temperature: dayAndNightTemperature,
             iconUrl: iconUrl,
@@ -141,78 +125,5 @@ class DailyForecastScreen extends StatelessWidget {
         );
       },
     );
-  }
-}
-
-class DailyWeatherBloc extends BlocBase {
-  Future<List<DayWeather>> _fetchDailyWeather() =>
-      getSevenDaysDailyForecast(50.4547, 30.5238, 'ru');
-
-  final _weatherFetcher = BehaviorSubject<List<DayWeather>>();
-
-  Stream<List<DayWeather>> get weather => _weatherFetcher.stream;
-
-  DailyWeatherBloc() {
-    fetchDailyWeather();
-  }
-
-  fetchDailyWeather() async {
-    List<DayWeather> fetchedWeather = await _fetchDailyWeather();
-    _weatherFetcher.sink.add(fetchedWeather);
-  }
-
-  dispose() {
-    super.dispose();
-    _weatherFetcher.close();
-  }
-}
-
-final weekDays = <int, String>{
-  1: 'Mon',
-  2: 'Tue',
-  3: 'Wed',
-  4: 'Thu',
-  5: 'Fri',
-  6: 'Sat',
-  7: 'Sun',
-};
-
-class WeekDayAndDayNumberTimeFormatBloc extends BlocBase {
-  final _humanTime = BehaviorSubject<String>();
-
-  Stream<String> get time => _humanTime.stream;
-
-  WeekDayAndDayNumberTimeFormatBloc(int unixDateTime) {
-    var date = DateTime.fromMillisecondsSinceEpoch(unixDateTime * 1000);
-    var weekDay = weekDays[date.weekday];
-    var dayNumber = date.day.toString();
-    _humanTime.sink.add(weekDay + ' ' + dayNumber);
-  }
-
-  dispose() {
-    super.dispose();
-    _humanTime.close();
-  }
-}
-
-class HourMinuteTimeFormatBloc extends BlocBase {
-  final _humanTime = BehaviorSubject<String>();
-
-  Stream<String> get time => _humanTime.stream;
-
-  HourMinuteTimeFormatBloc(int unixDateTime) {
-    var date = DateTime.fromMillisecondsSinceEpoch(unixDateTime * 1000);
-    var hour = date.hour > 9
-        ? date.hour.toString()
-        : '0' + date.hour.toString();
-    var minute = date.minute > 9
-        ? date.minute.toString()
-        : '0' + date.minute.toString();
-    _humanTime.sink.add(hour + ':' + minute);
-  }
-
-  dispose() {
-    super.dispose();
-    _humanTime.close();
   }
 }
