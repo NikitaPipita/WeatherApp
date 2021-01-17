@@ -26,9 +26,10 @@ class MyApp extends StatelessWidget {
         home: SplashScreen(),
 
         localizationsDelegates: [
-          AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          AppLocalizations.delegate,
         ],
         supportedLocales: [
           const Locale('en', ''),

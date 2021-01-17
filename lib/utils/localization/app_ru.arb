@@ -1,8 +1,8 @@
 {
   "languageCode": "ru",
   "languageAndCountryCode": "ru_RU",
-  "showHourlyWeather": "Показать почасовую погоду",
-  "showDailyWeather": "Показать ежедневную погоду",
+  "showHourlyWeather": "Почасовая погода",
+  "showDailyWeather": "Ежедневная погода",
   "feelsLike": "Ощущается как",
   "dayFeelsLike": "Днём ощущается как",
   "nightFeelsLike": "Ночью ощущается как",

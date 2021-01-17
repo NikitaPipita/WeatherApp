@@ -1,5 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import '../../../blocs/main_screen_blocs/daily_weather_bloc.dart';
@@ -36,7 +37,7 @@ class DailyForecastScreen extends StatelessWidget {
         DayWeather dayForecast = forecast[index];
 
         final forecastDay = dayForecast.unixDateTime
-            .weekDayAndDayNumberTimeFormatBloc();
+            .weekDayAndDayNumberTimeFormatBloc(context);
 
         final dayTemperature = dayForecast.dayTemperature.toString() + '°';
         final nightTemperature = dayForecast.nightTemperature.toString() + '°';
@@ -58,49 +59,53 @@ class DailyForecastScreen extends StatelessWidget {
         final hourWeatherDetails = [
           DetailInfoGridTile(
             icon: FontAwesome.thermometer_full,
-            title: 'Day feels like',
+            title: AppLocalizations.of(context).dayFeelsLike,
             info: dayForecast.dayTemperatureFeels.toString() + '°',
             underlined: true,
           ),
           DetailInfoGridTile(
             icon: FontAwesome.thermometer_empty,
-            title: 'Nigh feels like',
+            title: AppLocalizations.of(context).nightFeelsLike,
             info: dayForecast.nightTemperatureFeels.toString() + '°',
             underlined: true,
           ),
           DetailInfoGridTile(
             icon: Feather.cloud,
-            title: 'Cloudiness',
+            title: AppLocalizations.of(context).cloudiness,
             info: dayForecast.cloudiness.toString() + '%',
             underlined: true,
           ),
           DetailInfoGridTile(
             icon: Feather.wind,
-            title: 'Wind',
-            info: dayForecast.windSpeed.toString() + ' km/h',
+            title: AppLocalizations.of(context).wind,
+            info: dayForecast.windSpeed.toString() +
+                ' ' +
+                AppLocalizations.of(context).kmPerHour,
             underlined: true,
           ),
           DetailInfoGridTile(
             icon: WeatherIcons.wi_humidity,
-            title: 'Humidity',
+            title: AppLocalizations.of(context).humidity,
             info: dayForecast.humidity.toString() + '%',
             underlined: true,
           ),
           DetailInfoGridTile(
             icon: Feather.sun,
-            title: 'UV index',
-            info: dayForecast.ultravioletIndex.toString() + ' out of 10',
+            title: AppLocalizations.of(context).uvIndex,
+            info: dayForecast.ultravioletIndex.toString() +
+                ' ' +
+                AppLocalizations.of(context).outOfTen,
             underlined: true,
           ),
           DetailInfoGridTile(
             icon: Feather.sunrise,
-            title: 'Sunrise',
+            title: AppLocalizations.of(context).sunrise,
             info: sunriseTime,
             underlined: false,
           ),
           DetailInfoGridTile(
             icon: Feather.sunset,
-            title: 'Sunset',
+            title: AppLocalizations.of(context).sunset,
             info: sunsetTime,
             underlined: false,
           ),

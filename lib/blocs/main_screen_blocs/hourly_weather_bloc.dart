@@ -17,16 +17,14 @@ class HourlyWeatherBloc extends BlocBase {
 
   Stream<List<HourWeather>> get weather => _weatherFetcher.stream;
 
-  HourlyWeatherBloc() {
-    fetchHourlyWeather();
-  }
-
-  fetchHourlyWeather() async {
-    List<HourWeather> fetchedWeather = await _fetchHourlyWeather();
+  fetchHourlyWeather(String languageCode, String languageAndCountryCode) async {
+    List<HourWeather> fetchedWeather =
+        await _fetchHourlyWeather(languageCode, languageAndCountryCode);
     _weatherFetcher.sink.add(fetchedWeather);
   }
 
-  Future<List<HourWeather>> _fetchHourlyWeather() async {
+  Future<List<HourWeather>> _fetchHourlyWeather(
+      String languageCode, String languageAndCountryCode) async {
     var internetConnectivity = await Connectivity().checkConnectivity();
     var preferences = await SharedPreferences.getInstance();
     String jsonData;
@@ -39,12 +37,12 @@ class HourlyWeatherBloc extends BlocBase {
 
       final _cityNameBloc = BlocProvider.getBloc<CityNameBloc>();
       var cityPosition = await determineCurrentPosition();
-      var cityName = await determineCityByCoordinates(
-          cityPosition.latitude, cityPosition.longitude);
+      var cityName = await determineCityByCoordinates(cityPosition.latitude,
+          cityPosition.longitude, languageAndCountryCode);
       _cityNameBloc.setCity(cityName);
 
       jsonData = await getTwoDaysHourlyForecast(
-          cityPosition.latitude, cityPosition.longitude, 'ru');
+          cityPosition.latitude, cityPosition.longitude, languageCode);
       await preferences.setString(
           sharedPreferencesKeys.lastHourlyForecast, jsonData);
     }

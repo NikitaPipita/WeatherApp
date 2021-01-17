@@ -1,5 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import '../../../blocs/main_screen_blocs/hourly_weather_bloc.dart';
@@ -39,35 +40,40 @@ class HourlyForecastScreen extends StatelessWidget {
 
         final hourTemperature = hourForecast.temperature.toString() + '°';
         final iconUrl = weatherApi.openWeatherImagePath +
-            hourForecast.generalInfo.first.weatherIcon + '@4x.png';
+            hourForecast.generalInfo.first.weatherIcon +
+            '@4x.png';
         final hourPrecipitationProbability =
             hourForecast.precipitationProbability.toString() + '%';
 
-        final weatherDescription = hourForecast.generalInfo.first
-            .description.capitalizeFirstSymbol();
+        final weatherDescription =
+            hourForecast.generalInfo.first.description.capitalizeFirstSymbol();
         final hourWeatherDetails = [
           DetailInfoGridTile(
             icon: FontAwesome.thermometer_empty,
-            title: 'Feels like',
+            title: AppLocalizations.of(context).feelsLike,
             info: hourForecast.temperatureFeels.toString() + '°',
             underlined: true,
           ),
           DetailInfoGridTile(
             icon: Feather.wind,
-            title: 'Wind',
-            info: hourForecast.windSpeed.toString() + ' km/h',
+            title: AppLocalizations.of(context).wind,
+            info: hourForecast.windSpeed.toString() +
+                ' ' +
+                AppLocalizations.of(context).kmPerHour,
             underlined: true,
           ),
           DetailInfoGridTile(
             icon: WeatherIcons.wi_humidity,
-            title: 'Humidity',
+            title: AppLocalizations.of(context).humidity,
             info: hourForecast.humidity.toString() + '%',
             underlined: false,
           ),
           DetailInfoGridTile(
             icon: Feather.sun,
-            title: 'UV index',
-            info: hourForecast.ultravioletIndex.toString() + ' out of 10',
+            title: AppLocalizations.of(context).uvIndex,
+            info: hourForecast.ultravioletIndex.toString() +
+                ' ' +
+                AppLocalizations.of(context).outOfTen,
             underlined: false,
           ),
         ];

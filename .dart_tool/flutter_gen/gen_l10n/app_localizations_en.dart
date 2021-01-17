@@ -52,6 +52,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get kmPerHour => 'km/h';
 
   @override
+  String get outOfTen => 'out of 10';
+
+  @override
   String get mon => 'Mon';
 
   @override

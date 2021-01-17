@@ -27,9 +27,10 @@ Future<Position> determineCurrentPosition() async {
   return await Geolocator.getCurrentPosition();
 }
 
-Future<String> determineCityByCoordinates(double latitude, double longitude) async {
+Future<String> determineCityByCoordinates(
+    double latitude, double longitude, String languageAndCountryCode) async {
   List<Placemark> placemarks = await placemarkFromCoordinates(
       latitude, longitude,
-      localeIdentifier: 'en_UK');
+      localeIdentifier: languageAndCountryCode);
   return placemarks.last.locality;
 }

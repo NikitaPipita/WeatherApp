@@ -19,7 +19,7 @@ class WeatherDisplayModeBloc extends BlocBase{
   Stream<Widget> get currentScreen => _currentScreen.stream;
 
   WeatherDisplayModeBloc() {
-    _currentScreen.sink.add(forecastScreens[0]);
+    _currentScreen.sink.add(forecastScreens.first);
 
     _stateBlocSubscription = _stateBloc.getMode.listen((event) {
       var selectedScreen = _stateBloc.modes.indexOf(event);

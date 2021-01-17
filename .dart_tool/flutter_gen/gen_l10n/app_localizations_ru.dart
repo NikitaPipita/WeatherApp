@@ -16,10 +16,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get languageAndCountryCode => 'ru_RU';
 
   @override
-  String get showHourlyWeather => 'Показать почасовую погоду';
+  String get showHourlyWeather => 'Почасовая погода';
 
   @override
-  String get showDailyWeather => 'Показать ежедневную погоду';
+  String get showDailyWeather => 'Ежедневная погода';
 
   @override
   String get feelsLike => 'Ощущается как';
@@ -50,6 +50,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get kmPerHour => 'км/ч';
+
+  @override
+  String get outOfTen => 'из 10';
 
   @override
   String get mon => 'пн';

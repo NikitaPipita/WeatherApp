@@ -180,6 +180,12 @@ abstract class AppLocalizations {
   /// **'km/h'**
   String get kmPerHour;
 
+  /// No description provided for @outOfTen.
+  ///
+  /// In en, this message translates to:
+  /// **'out of 10'**
+  String get outOfTen;
+
   /// No description provided for @mon.
   ///
   /// In en, this message translates to:
