@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants/shared_preferences_keys.dart' as sharedPreferencesKeys;
 import '../../models/open_weather_models/data_models.dart';
+import '../../services/geolocation/determine_position.dart';
 import '../../services/weather_api/open_weather_requests.dart';
 
 class DailyWeatherBloc extends BlocBase {
@@ -34,7 +35,9 @@ class DailyWeatherBloc extends BlocBase {
           preferences.getString(sharedPreferencesKeys.lastDailyForecast) ?? '';
       if (jsonData.isEmpty) return List<DayWeather>();
     } else {
-      jsonData = await getSevenDaysDailyForecast(50.4547, 30.5238, 'ru');
+      var cityPosition = await determineCurrentPosition();
+      jsonData = await getSevenDaysDailyForecast(
+          cityPosition.latitude, cityPosition.longitude, 'ru');
       await preferences.setString(
           sharedPreferencesKeys.lastDailyForecast, jsonData);
     }
