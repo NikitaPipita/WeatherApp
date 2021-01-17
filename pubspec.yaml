@@ -36,6 +36,7 @@ dependencies:
   connectivity: ^2.0.2
   shared_preferences: ^0.5.12+4
   geolocator: ^6.1.13
+  geocoding: ^1.0.5
 
 dev_dependencies:
   flutter_test:

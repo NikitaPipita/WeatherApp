@@ -1,3 +1,4 @@
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../constants/cities_coordinates.dart';
@@ -24,4 +25,11 @@ Future<Position> determineCurrentPosition() async {
   }
 
   return await Geolocator.getCurrentPosition();
+}
+
+Future<String> determineCityByCoordinates(double latitude, double longitude) async {
+  List<Placemark> placemarks = await placemarkFromCoordinates(
+      latitude, longitude,
+      localeIdentifier: 'en_UK');
+  return placemarks.last.locality;
 }
