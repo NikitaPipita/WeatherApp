@@ -16,16 +16,12 @@ class DailyWeatherBloc extends BlocBase {
 
   Stream<List<DayWeather>> get weather => _weatherFetcher.stream;
 
-  DailyWeatherBloc() {
-    fetchDailyWeather();
-  }
-
-  fetchDailyWeather() async {
-    List<DayWeather> fetchedWeather = await _fetchDailyWeather();
+  fetchDailyWeather(String languageCode) async {
+    List<DayWeather> fetchedWeather = await _fetchDailyWeather(languageCode);
     _weatherFetcher.sink.add(fetchedWeather);
   }
 
-  Future<List<DayWeather>> _fetchDailyWeather() async {
+  Future<List<DayWeather>> _fetchDailyWeather(String languageCode) async {
     var internetConnectivity = await Connectivity().checkConnectivity();
     var preferences = await SharedPreferences.getInstance();
     String jsonData;
@@ -37,7 +33,7 @@ class DailyWeatherBloc extends BlocBase {
     } else {
       var cityPosition = await determineCurrentPosition();
       jsonData = await getSevenDaysDailyForecast(
-          cityPosition.latitude, cityPosition.longitude, 'ru');
+          cityPosition.latitude, cityPosition.longitude, languageCode);
       await preferences.setString(
           sharedPreferencesKeys.lastDailyForecast, jsonData);
     }

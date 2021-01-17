@@ -5,15 +5,16 @@ import 'package:rxdart/rxdart.dart';
 
 class AppBarTitleBloc extends BlocBase{
 
-  var modes = ['Show hourly weather', 'Show daily weather'];
+  List<String> modes;
 
   final _currentMode = BehaviorSubject<String>();
 
   Function(String) get setMode => _currentMode.sink.add;
   Stream<String> get getMode => _currentMode.stream;
 
-  AppBarTitleBloc() {
-    _currentMode.sink.add(modes[0]);
+  void createModes(List<String> modesList) {
+    modes = modesList;
+    _currentMode.sink.add(modes.first);
   }
 
   @override
